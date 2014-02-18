@@ -1,5 +1,6 @@
 ﻿//Init constructor _X
 function _X (itemName){
+    //Need to load all name matches into an array, then auto iterate over array in each method.
     this.itemFound = false;
     if(!itemName) return new __X();
     var item, xClone = new __X ()
@@ -36,7 +37,7 @@ __X.prototype.childFolder = function(name){
            return _childFolders;
         }
     var _childFolder = app.project.items.addFolder(name);
-    _childFolder.parent = this;
+    _childFolder.parentFolder = this;
     return this;
     };
 //Utilities
@@ -48,7 +49,7 @@ __X.prototype.exists = function (itemType) {
 };
 __X.prototype.each = function(fn){
     if(typeof this == 'object'){
-        for(c in this){
+        for(var c in this){
                 fn.call(this, this[c], c, this);
         }
     }
@@ -66,6 +67,14 @@ __X.prototype.alertName = function(){
 __X.prototype.assert = function (condition, msg) {
     alert(msg, (condition ? "pass" : "fail"));
 };
+
+__X.prototype.findError = function(codeblock){
+        try{
+                eval(codeblock)
+        }catch(e){
+                
+        }
+    }
 
 
 
