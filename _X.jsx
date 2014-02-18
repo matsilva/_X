@@ -24,26 +24,30 @@ __X.prototype.changeName = function(newName){};
 //For FolderItems
 __X.prototype.childFolder = function(name){
     this.each(function(val){
-        if(val.typeName != 'Folder') return;
-        var _childFolders = new Object;
-            if(!name){
-                   for(var i = 1; i <= val.numItems; i++){
-                        _childFolders[val.item(i).name] = val.item(i);
-                   }
-               return _childFolders;
-            }
-        var _childFolder = app.project.items.addFolder(name);
-        _childFolder.parentFolder = val;
+        for(var j = 0; i < this.length; j++){
+            if(val[j].typeName != 'Folder') return;
+            var _childFolders = new Object;
+                if(!name){
+                       for(var i = 1; i <= val[j].numItems; i++){
+                            _childFolders[val[j].item(i).name] = val[j].item(i);
+                       }
+                   return _childFolders;
+                }
+            var _childFolder = app.project.items.addFolder(name);
+            _childFolder.parentFolder = val[j];
+        }
     });
     return this;
-    };
+};
 //Utilities
 __X.prototype.exists = function (itemType) {
     //item type is optional arg
     var itemFound = false;
     this.each(function(val){
-        if(itemType && !(val.typeName == itemType)){
-          itemFound = true;  
+        for(var j = 0; i < this.length; j++){
+            if(itemType && !(val[j].typeName == itemType)){
+              itemFound = true;  
+            }
         }
     });
     return itemFound;
@@ -54,7 +58,7 @@ __X.prototype.each = function(fn){
             for(var c in this[j]){
                 if(typeof c == 'array'){
                     for(var i = 0; i< c.length; i++){
-                        fn.call(this, this[i], this);
+                        fn.call(this, this[j][c][i], this);
                     }
                 }else{
                     fn.call(this, this[j][c], c, this);
