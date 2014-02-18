@@ -8,7 +8,7 @@ function _X (itemName){
             item = app.project.item(i);
         }
     }
-    if(typeof itemName == 'object'){item = itemName};
+    if(typeof itemName == 'object' || typeof itemName == 'array'){item = itemName};
     if(!item){return new __X();}
     if(item) {this.itemFound = true;}
     for (var prop in item) {
