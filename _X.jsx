@@ -1,8 +1,7 @@
 ﻿//Init constructor _X
 function _X (itemName){
-    this.itemFound = false;
     if(!itemName) return new __X();
-    var item = new Array, _clone = new Array;
+    var item = new Array, _clone = new __X();
     for (var i = 1; i <= app.project.numItems; i++) {
         if (app.project.item(i).name == itemName) {
             item.push(app.project.item(i));
@@ -10,9 +9,7 @@ function _X (itemName){
     }
     if(typeof itemName == 'object' || typeof itemName == 'array'){item.push(itemName);};
     if(!item[0]){return new __X();}
-    if(item[0]) {this.itemFound = true;} //this needs to be set dynamically in the exists function
     for(var i = 0; i < item.length; i++){
-        _clone[i] = new __X();
         for (var prop in item[i]) {
             _clone[i][prop] = item[i][prop];
         }
@@ -52,13 +49,19 @@ __X.prototype.exists = function (itemType) {
         if(itemType && !(val.typeName == itemType)){
           itemFound = true;  
         }
-    }
+    });
     return itemFound;
 };
 __X.prototype.each = function(fn){
     if(typeof this == 'object'){
         for(var c in this){
+            if(typeof c == 'array'){
+                for(var i = 0; i< c.length; i++){
+                    fn.call(this, this[i], this);
+                }
+            }else{
                 fn.call(this, this[c], c, this);
+            }
         }
     }
     if(typeof this == 'array'){
