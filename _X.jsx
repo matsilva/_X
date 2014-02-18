@@ -1,20 +1,16 @@
 ﻿//Init constructor _X
 function _X (itemName){
-    if(!itemName) return new __X();
-    var item = new Array, _clone = new __X();
-    for (var i = 1; i <= app.project.numItems; i++) {
-        if (app.project.item(i).name == itemName) {
-            item.push(app.project.item(i));
+    var _clone = new __X();
+    if(!itemName) return _clone;
+    if(typeof itemName == "string"){
+        for (var i = 1; i <= app.project.numItems; i++) {
+            if (app.project.item(i).name == itemName) {
+                _clone[i-1] = app.project.item(i);
+            }
         }
     }
-    if(typeof itemName == 'object' || typeof itemName == 'array'){item.push(itemName);};
-    if(!item[0]){return new __X();}
-    for(var i = 0; i < item.length; i++){
-        for (var prop in item[i]) {
-            _clone[i][prop] = item[i][prop];
-        }
-    }
-    return _clone; //returns cloned array of items
+    if(typeof itemName == 'object' || typeof itemName == 'array'){_clone[0] = itemName;};
+    return _clone; //returns object of matching items
 }
 //make sure to refer to this when calling methods, then return this to make it chainable
 
@@ -53,20 +49,22 @@ __X.prototype.exists = function (itemType) {
     return itemFound;
 };
 __X.prototype.each = function(fn){
-    if(typeof this == 'object'){
-        for(var c in this){
-            if(typeof c == 'array'){
-                for(var i = 0; i< c.length; i++){
-                    fn.call(this, this[i], this);
+    for(var j = 0; i < this.length; j++){
+        if(typeof this[j] == 'object'){
+            for(var c in this[j]){
+                if(typeof c == 'array'){
+                    for(var i = 0; i< c.length; i++){
+                        fn.call(this, this[i], this);
+                    }
+                }else{
+                    fn.call(this, this[j][c], c, this);
                 }
-            }else{
-                fn.call(this, this[c], c, this);
             }
         }
-    }
-    if(typeof this == 'array'){
-        for(var i = 0; i< this.length; i++){
-            fn.call(this, this[i], this);
+        if(typeof this[j] == 'array'){
+            for(var i = 0; i< this[j].length; i++){
+                fn.call(this, this[j][i], this);
+            }
         }
     }
     return this;
