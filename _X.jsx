@@ -47,18 +47,19 @@ __X.prototype.exists = function (itemType) {
     });
     return itemFound;
 };
-__X.prototype.each = function(fn){   
-    if(typeof this== 'object'){
-        for(var c in this){
-            fn.call(this, this[c], c, this);
+__X.prototype.each = function(fn, collection){ 
+    var context = collection ? collection: this;
+    if(typeof context == 'object'){
+        for(var c in context){
+            fn.call(context, context[c], c, context);
         }
     }
-    if(typeof this == 'array'){
-        for(var i = 0; i< this.length; i++){
-            fn.call(this, this[i], this);
+    if(typeof context == 'array'){
+        for(var i = 0; i< context.length; i++){
+            fn.call(context, context[i], context);
         }
     }
-    return this;
+    return context;
 }
 //Debugging tools
 __X.prototype.alertName = function(i){
