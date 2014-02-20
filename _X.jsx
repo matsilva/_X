@@ -1,20 +1,39 @@
-﻿//Init constructor _X
-function _X (itemName){
+﻿//Main object _X
+function _X (itemName, itemType){
+    var item = (itemName && itemType) ? getItem(itemName, itemType) : ((typeof itemName == "string")? getItem(itemName): null);
     var _clone = new __X();
     if(!itemName) return _clone;
-    if(typeof itemName == "string"){
-        for (var i = 1; i <= app.project.numItems; i++) {
-            if (app.project.item(i).name == itemName) {
-                _clone[i-1] = app.project.item(i);
+    function getItem(iName, iType){
+        if((itemName && itemType) && typeof iName == "string" ){
+            for (var i = 1; i <= app.project.numItems; i++) {
+                if (app.project.item(i).name == iName && app.project.item(i).typeName == iType ) {
+                    return app.project.item(i);
+                }
+            }
+        } else if(typeof iName == "string" ){
+            for (var i = 1; i <= app.project.numItems; i++) {
+                if (app.project.item(i).name == iName) {
+                    return app.project.item(i);
+                }
             }
         }
+    };
+    
+    if(typeof itemName == 'object' || typeof itemName == 'array'){item = itemName;};
+    if(item){
+        for(var j in _clone){
+             item[j] = _clone[j];
+             
+        }
+        return item;
+    }else{
+        return _clone; //returns object of matching items
     }
-    if(typeof itemName == 'object' || typeof itemName == 'array'){_clone[0] = itemName;};
-    return _clone; //returns object of matching items
 }
 
 //Define private superclass
 function __X(){}
+
 //For CompItems
 __X.prototype.getLayer = function (layerName){};
 __X.prototype.hasLayer = function (layerName){};
@@ -22,29 +41,26 @@ __X.prototype.changeName = function(newName){};
 
 //For FolderItems
 __X.prototype.childFolder = function(name){
-    this.each(function(val){
-        if(val.typeName != 'Folder') return;
+        if(this.typeName != 'Folder') return;
         var _childFolders = new Object;
             if(!name){
-                   for(var i = 1; i <= val.numItems; i++){
-                        _childFolders[val.item(i).name] = val.item(i);
+                   for(var i = 1; i <= this.numItems; i++){
+                        _childFolders[this.item(i).name] =this.item(i);
                    }
                return _childFolders;
             }
         var _childFolder = app.project.items.addFolder(name);
-        _childFolder.parentFolder = val;
-    });
+        alert(this);
+        _childFolder.parentFolder = this;
     return this;
 };
 //Utilities
 __X.prototype.exists = function (itemType) {
     //item type is optional arg
     var itemFound = false;
-    this.each(function(val){
-        if(itemType && !(val.typeName == itemType)){
+        if(this.typeName == itemType){
           itemFound = true;  
         }
-    });
     return itemFound;
 };
 __X.prototype.each = function(fn, collection){ 
@@ -63,7 +79,7 @@ __X.prototype.each = function(fn, collection){
 }
 //Debugging tools
 __X.prototype.alertName = function(i){
-    alert(this[i].name);
+    alert(this.name);
     return this;
 };
 __X.prototype.assert = function (condition, msg) {
