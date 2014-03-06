@@ -18,12 +18,12 @@ function _X (itemName, itemType){
             }
         }
     };
-    
+
     if(typeof itemName == 'object' || typeof itemName == 'array'){item = itemName;};
     if(item){
         for(var j in _clone){
              item[j] = _clone[j];
-             
+
         }
         return item;
     }else{
@@ -59,11 +59,11 @@ __X.prototype.exists = function (itemType) {
     //item type is optional arg
     var itemFound = false;
         if(this.typeName == itemType){
-          itemFound = true;  
+          itemFound = true;
         }
     return itemFound;
 };
-__X.prototype.each = function(fn, collection){ 
+__X.prototype.each = function(fn, collection){
     var context = collection ? collection: this;
     if(typeof context == 'object'){
         for(var c in context){
@@ -77,6 +77,11 @@ __X.prototype.each = function(fn, collection){
     }
     return context;
 }
+//Http tools
+__X.prototype.http = function(url, success){
+  s
+};
+
 //Debugging tools
 __X.prototype.alertName = function(i){
     alert(this.name);
@@ -90,10 +95,6 @@ __X.prototype.findError = function(codeblock){
         try{
                 eval(codeblock)
         }catch(e){
-                
+
         }
     }
-
-
-
-
