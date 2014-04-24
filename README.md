@@ -2,7 +2,7 @@ _X ~ An After Effects Scripting Library
 ==
 `_X(name, itemType)` - Will return a single item based on two arguments. `itemType` arg is optional.
 
-*Example* `_X('RenderComp', 'Composition').layers.add(newFootage);`
+*Example* `_X('RenderComp', 'Composition').layers.addText('This is awesome!')`
 
 After trying to find the "jQuery" for After Effects scripting, I decided to start building out a library that offers robust features to help myself script in After Effects. I was simply tired of looping through the entire After Effects  project object to get a particular comp, folder or layer....
 
