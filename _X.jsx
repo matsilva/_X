@@ -49,27 +49,28 @@ function _X (itemName, itemType){
 function __X(){}
 
 //For CompItems
-__X.prototype.getLayer = function (layerName){
-        if (this instanceof CompItem) {
+__X.prototype.getLayer = function (layerName) {
+    if (this instanceof CompItem) {
             for (var j = 1; j <= this.layers.length; j++) {
                 if (this.layer(j).name == layerName) {
                     return this.layer(j);
                 }
             }
         }
+    return this.layer(j);
 };
-__X.prototype.hasLayer = function (layerName){
-         if (this instanceof CompItem) {
-            for (var j = 1; j <= this.layers.length; j++) {
-                if (this.layer(j).name == layerName) {
-                    return true;
-                } else {
-                    return false;
+__X.prototype.hasLayer = function(layerName) {
+    if (this instanceof CompItem) {
+        for (var j = 1; j <= this.layers.length; j++) {
+            if (this.layer(j).name == layerName) {
+                return true;
+            } else {
+                return false;
             }
-        } else {
-            return false;
-        }
-    };
+        } 
+    } 
+    return false;
+};
 __X.prototype.changeName = function(newName){};
 
 //For FolderItems
@@ -85,7 +86,7 @@ __X.prototype.childFolder = function(name){
         var _childFolder = app.project.items.addFolder(name);
         alert(this);
         _childFolder.parentFolder = this;
-    return this;
+    return _childFolder;
 };
 //Utilities
 __X.prototype.exists = function (itemType) {
@@ -96,23 +97,23 @@ __X.prototype.exists = function (itemType) {
         }
     return itemFound;
 };
-__X.prototype.each = function(fn, collection){
-    var context = collection ? collection: this;
-    if(typeof context == 'object'){
-        for(var c in context){
+__X.prototype.each = function(fn, collection) {
+    var context = collection ? collection : this;
+    if (typeof context == 'object') {
+        for (var c in context) {
             fn.call(context, context[c], c, context);
         }
     }
-    if(typeof context == 'array'){
-        for(var i = 0; i< context.length; i++){
+    if (typeof context == 'array') {
+        for (var i = 0; i < context.length; i++) {
             fn.call(context, context[i], context);
         }
     }
     return context;
-}
+};
 //Http tools
 __X.prototype.http = function(url, success){
-  s
+  //
 };
 
 //Debugging tools
@@ -124,10 +125,10 @@ __X.prototype.assert = function (condition, msg) {
     alert(msg, (condition ? "pass" : "fail"));
 };
 
-__X.prototype.findError = function(codeblock){
-        try{
-                eval(codeblock)
-        }catch(e){
+__X.prototype.findError = function(codeblock) {
+    try {
+        eval(codeblock);
+    } catch (e) {
 
-        }
     }
+};
