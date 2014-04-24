@@ -1,4 +1,4 @@
-_X
+_X, an After Effects Scripting Library
 ==
 After trying to find the "jQuery" for After Effects scripting, I decided to start building out a library that offers robust features to help myself script in After Effects. I was simply tired of looping through the entire After Effects  project object to get a particular comp, folder or layer....
 
