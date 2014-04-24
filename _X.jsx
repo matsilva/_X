@@ -6,12 +6,26 @@ function _X (itemName, itemType){
     function getItem(iName, iType){
         if((itemName && itemType) && typeof iName == "string" ){
             for (var i = 1; i <= app.project.numItems; i++) {
+                if (app.project.item(i) instanceof CompItem) {
+                    for (var j = 1; j <= app.project.item(i).layers.length; j++) {
+                        if (app.project.item(i).layer(j).name == iName) {
+                            return app.project.item(i).layer(j);
+                        }
+                    }
+                }
                 if (app.project.item(i).name == iName && app.project.item(i).typeName == iType ) {
                     return app.project.item(i);
                 }
             }
         } else if(typeof iName == "string" ){
             for (var i = 1; i <= app.project.numItems; i++) {
+                if (app.project.item(i) instanceof CompItem) {
+                    for (var j = 1; j <= app.project.item(i).layers.length; j++) {
+                        if (app.project.item(i).layer(j).name == iName) {
+                            return app.project.item(i).layer(j);
+                        }
+                    }
+                }
                 if (app.project.item(i).name == iName) {
                     return app.project.item(i);
                 }
@@ -35,8 +49,27 @@ function _X (itemName, itemType){
 function __X(){}
 
 //For CompItems
-__X.prototype.getLayer = function (layerName){};
-__X.prototype.hasLayer = function (layerName){};
+__X.prototype.getLayer = function (layerName){
+        if (this instanceof CompItem) {
+            for (var j = 1; j <= this.layers.length; j++) {
+                if (this.layer(j).name == layerName) {
+                    return this.layer(j);
+                }
+            }
+        }
+};
+__X.prototype.hasLayer = function (layerName){
+         if (this instanceof CompItem) {
+            for (var j = 1; j <= this.layers.length; j++) {
+                if (this.layer(j).name == layerName) {
+                    return true;
+                } else {
+                    return false;
+            }
+        } else {
+            return false;
+        }
+    };
 __X.prototype.changeName = function(newName){};
 
 //For FolderItems
