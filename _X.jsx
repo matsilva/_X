@@ -3,32 +3,32 @@ function _X (itemName, itemType){
     var item = (itemName && itemType) ? getItem(itemName, itemType) : ((typeof itemName == "string")? getItem(itemName): null);
     var _clone = new __X();
     if(!itemName) return _clone;
+
     function getItem(iName, iType){
         if((itemName && itemType) && typeof iName == "string" ){
             for (var i = 1; i <= app.project.numItems; i++) {
-                if (app.project.item(i) instanceof CompItem) {
+                if (app.project.item(i).name == iName && app.project.item(i) instanceof iType ) {
+                    return app.project.item(i);
+                } else if (app.project.item(i) instanceof CompItem) {
                     for (var j = 1; j <= app.project.item(i).layers.length; j++) {
-                        if (app.project.item(i).layer(j).name == iName) {
+                        if (app.project.item(i).layer(j).name == iName && app.project.item(i).layer(j) instanceof iType) {
                             return app.project.item(i).layer(j);
                         }
-                    }
-                }
-                if (app.project.item(i).name == iName && app.project.item(i).typeName == iType ) {
-                    return app.project.item(i);
+                    } 
                 }
             }
         } else if(typeof iName == "string" ){
             for (var i = 1; i <= app.project.numItems; i++) {
-                if (app.project.item(i) instanceof CompItem) {
+                if (app.project.item(i).name == iName) {
+                    return app.project.item(i);
+                }else if (app.project.item(i) instanceof CompItem) {
                     for (var j = 1; j <= app.project.item(i).layers.length; j++) {
                         if (app.project.item(i).layer(j).name == iName) {
                             return app.project.item(i).layer(j);
                         }
                     }
                 }
-                if (app.project.item(i).name == iName) {
-                    return app.project.item(i);
-                }
+                
             }
         }
     };
