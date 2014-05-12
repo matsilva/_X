@@ -8,6 +8,7 @@ _X ~ An After Effects Scripting Library
 
 
 ##Quick Install:
+
 `#include "path/to/_X.jsx";`
 
 ==
