@@ -116,6 +116,35 @@ __X.prototype.http = function(url, success){
   //
 };
 
+//Child Process
+__X.prototype.cmd = function(strCommand){
+    var tempFolder = Folder.temp;
+    var batchFile = new File(tempFolder.fsName + guid() + ".bat"); //temp file name
+
+    if (batchFile != null) {
+        batchFile.open("w");
+        batchFile.write(strCommand);
+        batchFile.changePath(batchFile);
+        batchFile.close();
+    }
+
+    //run this batch file to open the URL in browser
+    batchFile.execute();
+}
+
+    var guid = (function() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                       .toString(16)
+                       .substring(1);
+        }
+        return function() {
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                   s4() + '-' + s4() + s4() + s4();
+        };
+    });
+};
+
 //Debugging tools
 __X.prototype.alertName = function(i){
     alert(this.name);
